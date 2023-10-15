@@ -1,44 +1,33 @@
-import { DragDropContext, DropResult } from "react-beautiful-dnd";
-import { Boards, Title } from "./components/components";
-import { useRecoilState } from "recoil";
-import { todoAtom } from "./atom";
-import { useState } from "react";
-import DropBoard from "./components/Dropboard";
+import { Title } from "./components/components";
+
+import ModalForm from "./components/ModalForm";
+import {
+  renderCardDetailAtom,
+  renderEditTodoAtom,
+  renderTodoFormAtom,
+} from "./atom";
+import { useRecoilValue } from "recoil";
+import FlashMessageContainer from "./components/FlashMessage";
+import CardDetail from "./components/CardDetail";
+import ModalEdit from "./components/ModalEdit";
+
+import Main from "./components/Main";
 
 function App() {
-  const [todoState, setTodoState] = useRecoilState(todoAtom);
-  const [isCompleteRendering, setIsCompleteRendering] = useState(false);
-
-  const onDragEnd = function ({
-    destination,
-    draggableId,
-    source,
-  }: DropResult) {
-    if (!destination) return;
-    if (isCompleteRendering) return;
-
-    setTodoState((current) => {
-      const newReturn = [...current];
-      const target = newReturn.splice(source.index, 1);
-      newReturn.splice(destination.index, 0, ...target);
-      return newReturn;
-    });
-    setIsCompleteRendering(true);
-    setTimeout(() => setIsCompleteRendering(false), 700);
-  };
+  const renderTodoFormState = useRecoilValue(renderTodoFormAtom);
+  const renderCardDetailState = useRecoilValue(renderCardDetailAtom);
+  const renderEditTodoState = useRecoilValue(renderEditTodoAtom);
 
   return (
     <div className="App">
-      {/* <header>
+      <FlashMessageContainer />
+      <header>
         <Title>TO DO Post It</Title>
       </header>
-      <main> */}
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Boards>
-          <DropBoard />
-        </Boards>
-      </DragDropContext>
-      {/* </main> */}
+      <Main />
+      {renderCardDetailState ? <CardDetail /> : null}
+      {renderTodoFormState ? <ModalForm /> : null}
+      {renderEditTodoState ? <ModalEdit /> : null}
     </div>
   );
 }
