@@ -13,8 +13,8 @@ https://charchar111.github.io/study-react-recoil-react-beautiful-dnd-category-to
 ## 기술 스택
 
 - React
-- [Recoil](Recoil-redux와의-비교)
-- (react-hook-form)[react-hook-form]
+- [Recoil](#Recoil-redux와의-비교)
+- (react-hook-form)[#react-hook-form]
 - react-beautiful-dnd
 
 ## 세부사항
